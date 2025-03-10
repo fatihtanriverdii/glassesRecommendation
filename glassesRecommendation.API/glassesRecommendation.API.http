@@ -1,0 +1,6 @@
+@glassesRecommendation.API_HostAddress = http://localhost:5118
+
+GET {{glassesRecommendation.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
