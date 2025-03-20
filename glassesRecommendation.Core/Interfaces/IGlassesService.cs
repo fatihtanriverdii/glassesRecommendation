@@ -7,7 +7,9 @@ namespace glassesRecommendation.Core.Interfaces
     public interface IGlassesService
     {
         Task<GlassesResponseDto> SaveAsync(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken);
-        Task<GlassesResponseDto> DeleteAsync(Glasses glasses, CancellationToken cancellationToken);
+        Task<GlassesResponseDto> DeleteAsync(RemoveGlassesRequestDto removeGlassesRequestDto, CancellationToken cancellationToken);
         Task<List<Glasses>> GetAllGlasses(CancellationToken cancellationToken);
-    }
+        Task<List<Glasses>?> GetGlassesSuitableFaceTypeAsync(FaceTypeRequestDto faceTypeRequestDto, CancellationToken cancellationToken);
+
+	}
 }

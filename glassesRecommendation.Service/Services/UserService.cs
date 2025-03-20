@@ -21,7 +21,13 @@ namespace glassesRecommendation.Service.Services
             return true;
         }
 
-        public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+		public async Task<GlassesResponseDto> GetAllGlassesAsync(string email, CancellationToken cancellationToken)
+		{
+			var glassesResponse = await _userRepository.FindAllGlassesAsync(email, cancellationToken);
+            return glassesResponse;
+		}
+
+		public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
             var user = await _userRepository.FindByEmailAsync(email, cancellationToken);
             return user;

@@ -1,0 +1,25 @@
+﻿using glassesRecommendation.Core.DTOs.Requests;
+using glassesRecommendation.Core.Interfaces;
+using glassesRecommendation.Core.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace glassesRecommendation.API.Controllers
+{
+	[Route("api/[controller]")]
+	[ApiController]
+	public class GlassesController : ControllerBase
+	{
+		private readonly IGlassesService _glassesService;
+
+		public GlassesController(IGlassesService glassesService) {
+			_glassesService = glassesService;
+		}
+
+		[HttpGet("suitable/glasses")]
+		public async Task<IActionResult> GetSuitableGlasses([FromQuery] FaceTypeRequestDto faceTypeRequestDto, CancellationToken cancellationToken)
+		{
+			List<Glasses> glasses = await _glassesService.GetGlassesSuitableFaceTypeAsync(faceTypeRequestDto, cancellationToken);
+			return Ok(glasses);
+		}
+	}
+}

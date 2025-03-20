@@ -3,6 +3,7 @@ using glassesRecommendation.Core.Interfaces;
 using glassesRecommendation.Core.Models;
 using glassesRecommendation.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace glassesRecommendation.Data.Repositories
 {
@@ -34,6 +35,18 @@ namespace glassesRecommendation.Data.Repositories
             try
             {
                 return await _context.Glasses.ToListAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while getting glasses: {ex.Message}");
+            }
+        }
+
+        public async Task<Glasses?> FindById(long id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _context.Glasses.FirstOrDefaultAsync(g => g.Id == id);
             }
             catch (Exception ex)
             {
@@ -79,6 +92,43 @@ namespace glassesRecommendation.Data.Repositories
                     IsSuccess = false,
                     Message = $"an error while updating glasses: {ex.Message}"
                 };
+            }
+        }
+
+        public async Task<List<Glasses>?> FindByFaceTypeAsync(string faceType, CancellationToken cancellationToken)
+        {
+            try
+            {
+                switch (faceType)
+                {
+                    case "Oval":
+                        return await _context.Glasses
+                            .Where(g => g.Oval == true)
+                            .ToListAsync(cancellationToken);
+                    case "Oblong":
+						return await _context.Glasses
+							.Where(g => g.Oblong == true)
+							.ToListAsync(cancellationToken);
+                    case "Heart":
+						return await _context.Glasses
+							.Where(g => g.Heart == true)
+							.ToListAsync(cancellationToken);
+                    case "Round":
+						return await _context.Glasses
+							.Where(g => g.Round == true)
+							.ToListAsync(cancellationToken);
+                    case "Square":
+						return await _context.Glasses
+							.Where(g => g.Square == true)
+							.ToListAsync(cancellationToken);
+                    default:
+                        return new List<Glasses> { };
+				}
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while getting glasses: {ex.Message}");
             }
         }
     }

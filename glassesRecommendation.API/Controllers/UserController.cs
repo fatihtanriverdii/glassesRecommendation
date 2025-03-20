@@ -9,16 +9,36 @@ namespace glassesRecommendation.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IGlassesService _glassesService;
+        private readonly IUserService _userService;
 
-        public UserController(IGlassesService glassesService)
+        public UserController(IGlassesService glassesService, IUserService userService)
         {
             _glassesService = glassesService;
+            _userService = userService;
         }
 
         [HttpPost("add/glasses")]
         public async Task<IActionResult> addGlasses(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken)
         {
             var response = await _glassesService.SaveAsync(addGlassesRequestDto, cancellationToken);
+            if (response.IsSuccess)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpDelete("remove/glasses")]
+        public async Task<IActionResult> removeGlasses(RemoveGlassesRequestDto removeGlassesRequestDto, CancellationToken cancellationToken)
+        {
+            var response = await _glassesService.DeleteAsync(removeGlassesRequestDto, cancellationToken);
+            if (response.IsSuccess) 
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpGet("glasses")]
+        public async Task<IActionResult> getGlasses([FromQuery] string email, CancellationToken cancellationToken)
+        {
+            var response = await _userService.GetAllGlassesAsync(email, cancellationToken);
             if (response.IsSuccess)
                 return Ok(response);
             return BadRequest(response);

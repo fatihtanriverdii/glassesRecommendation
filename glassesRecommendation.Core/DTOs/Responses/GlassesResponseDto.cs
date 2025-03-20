@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using glassesRecommendation.Core.Models;
 
 namespace glassesRecommendation.Core.DTOs.Responses
 {
     public class GlassesResponseDto
     {
         public bool IsSuccess { get; set; }
-        public string Message { get; set; }
-
+        public List<Glasses>? glasses { get; set; }
+        public string? Message { get; set; }
     }
 }

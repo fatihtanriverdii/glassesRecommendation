@@ -21,12 +21,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowFrontend",
-		policy =>
+		builder =>
 		{
-			policy.WithOrigins("http://192.168.1.115:3000", "http://localhost:3000")
+			builder
+            .WithOrigins("http://192.168.1.111:3000", "http://localhost:3000")
 			.AllowAnyMethod()
 			.AllowAnyHeader()
-			.AllowCredentials();
+			.AllowCredentials()
+            .SetIsOriginAllowed(origin => true);
 		});
 });
 
@@ -72,9 +74,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowFrontend");
+//app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();

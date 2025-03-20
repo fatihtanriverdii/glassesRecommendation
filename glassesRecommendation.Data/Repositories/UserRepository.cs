@@ -35,7 +35,37 @@ namespace glassesRecommendation.Data.Repositories
             }
         }
 
-        public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
+		public async Task<GlassesResponseDto> FindAllGlassesAsync(string email, CancellationToken cancellationToken)
+		{
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.Glasses)
+                    .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+
+                if (user == null)
+                {
+                    return new GlassesResponseDto
+                    {
+                        IsSuccess = false,
+                        Message = "user not found!"
+                    };
+                }
+
+                return new GlassesResponseDto
+                {
+                    IsSuccess = true,
+                    glasses = user.Glasses
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while user's glasses getting{ex.Message}");
+            }
+
+		}
+
+		public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
         {
             try
             {

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using glassesRecommendation.Data.Context;
 
@@ -10,9 +11,11 @@ using glassesRecommendation.Data.Context;
 namespace glassesRecommendation.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311135803_addedJsonIgnore")]
+    partial class addedJsonIgnore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,28 +47,13 @@ namespace glassesRecommendation.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("GlassesType")
+                    b.Property<string>("FaceType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Heart")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Oblong")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Oval")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Round")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Square")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

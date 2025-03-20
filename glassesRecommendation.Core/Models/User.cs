@@ -1,4 +1,6 @@
-﻿namespace glassesRecommendation.Core.Models
+﻿using System.Text.Json.Serialization;
+
+namespace glassesRecommendation.Core.Models
 {
     public class User
     {

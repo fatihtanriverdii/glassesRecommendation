@@ -19,8 +19,20 @@ namespace glassesRecommendation.API.Controllers
         public async Task<IActionResult> Register(RegisterDto registerDto, CancellationToken cancellationToken)
         {
             var authResponse = await _authenticationService.RegisterAsync(registerDto, cancellationToken);
-            if(authResponse.IsSuccess)
+            if (authResponse.IsSuccess)
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+					Path = "/",
+					Secure = false,
+					SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(1)
+                };
+                Response.Cookies.Append("token", authResponse.Token);
                 return Ok(authResponse);
+            }
+
             return BadRequest(authResponse);
         }
 
@@ -29,8 +41,29 @@ namespace glassesRecommendation.API.Controllers
         {
             var authResponse = await _authenticationService.LoginAsync(loginDto, cancellationToken);
             if (authResponse.IsSuccess)
-                return Ok(authResponse);
-            return BadRequest(authResponse);
+            {
+				var cookieOptions = new CookieOptions
+				{
+					HttpOnly = true,
+                    Path = "/",
+					Secure = false,
+					SameSite = SameSiteMode.None,
+					Expires = DateTime.UtcNow.AddDays(1)
+				};
+				Response.Cookies.Append("token", authResponse.Token);
+				return Ok(authResponse);
+            }
+            return Unauthorized(authResponse);
+        }
+
+        [HttpGet("check")]
+        public IActionResult CheckAuth()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Ok(new { isAuthenticated = true });
+            }
+            return Unauthorized(new { isAuthenticated = false });
         }
     }
 }

@@ -24,15 +24,39 @@ namespace glassesRecommendation.Service.Services
             _mapper = mapper;
         }
 
-        public Task<GlassesResponseDto> DeleteAsync(Glasses glasses, CancellationToken cancellationToken)
+        public async Task<GlassesResponseDto> DeleteAsync(RemoveGlassesRequestDto removeGlassesRequestDto, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _userRepository.FindByEmailAsync(removeGlassesRequestDto.Email , cancellationToken);
+            if (user != null)
+            {
+                var glasses = await _glassesRepository.FindById(removeGlassesRequestDto.GlassesId, cancellationToken);
+                if (glasses != null)
+                {
+                    user.Glasses.Clear();
+                    await _glassesRepository.RemoveAsync(glasses, cancellationToken);
+                    return new GlassesResponseDto
+                    {
+                        IsSuccess = true,
+                        Message = "glasses successfully deleted"
+                    };
+                }
+                return new GlassesResponseDto
+                {
+                    IsSuccess = false,
+                    Message = "glasses not found!"
+                };
+            }
+            return new GlassesResponseDto
+            {
+                IsSuccess = false,
+                Message = "user not found!"
+            };
+		}
 
         public Task<List<Glasses>> GetAllGlasses(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+			throw new NotImplementedException();
+		}
 
         public async Task<GlassesResponseDto> SaveAsync(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken)
         {
@@ -56,6 +80,11 @@ namespace glassesRecommendation.Service.Services
                 IsSuccess = false,
                 Message = "user not found"
             };
+        }
+
+        public async Task<List<Glasses>?> GetGlassesSuitableFaceTypeAsync(FaceTypeRequestDto faceTypeRequestDto, CancellationToken cancellationToken)
+        {
+            return await _glassesRepository.FindByFaceTypeAsync(faceTypeRequestDto.FaceType, cancellationToken);
         }
     }
 }
