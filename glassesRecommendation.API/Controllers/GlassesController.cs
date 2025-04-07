@@ -16,10 +16,14 @@ namespace glassesRecommendation.API.Controllers
 		}
 
 		[HttpGet("suitable/glasses")]
-		public async Task<IActionResult> GetSuitableGlasses([FromQuery] FaceTypeRequestDto faceTypeRequestDto, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetSuitableGlasses(
+			[FromQuery] FaceTypeRequestDto faceTypeRequestDto,
+			CancellationToken cancellationToken,
+			[FromQuery] int pageNumber = 1,
+			[FromQuery] int pageSize = 5)
 		{
-			List<Glasses> glasses = await _glassesService.GetGlassesSuitableFaceTypeAsync(faceTypeRequestDto, cancellationToken);
-			return Ok(glasses);
+			var pagedResult = await _glassesService.GetGlassesSuitableFaceTypeAsync(faceTypeRequestDto.FaceType, pageNumber, pageSize, cancellationToken);
+			return Ok(pagedResult);
 		}
 	}
 }

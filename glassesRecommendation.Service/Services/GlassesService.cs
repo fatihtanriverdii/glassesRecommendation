@@ -3,11 +3,6 @@ using glassesRecommendation.Core.DTOs.Requests;
 using glassesRecommendation.Core.DTOs.Responses;
 using glassesRecommendation.Core.Interfaces;
 using glassesRecommendation.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace glassesRecommendation.Service.Services
 {
@@ -82,9 +77,9 @@ namespace glassesRecommendation.Service.Services
             };
         }
 
-        public async Task<List<Glasses>?> GetGlassesSuitableFaceTypeAsync(FaceTypeRequestDto faceTypeRequestDto, CancellationToken cancellationToken)
+        public async Task<PagedResult<Glasses>> GetGlassesSuitableFaceTypeAsync(string faceType, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            return await _glassesRepository.FindByFaceTypeAsync(faceTypeRequestDto.FaceType, cancellationToken);
+            return await _glassesRepository.FindByFaceTypeAsync(faceType, pageNumber, pageSize, cancellationToken);
         }
     }
 }

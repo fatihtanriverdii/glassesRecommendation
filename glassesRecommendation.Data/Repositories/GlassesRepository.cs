@@ -95,35 +95,48 @@ namespace glassesRecommendation.Data.Repositories
             }
         }
 
-        public async Task<List<Glasses>?> FindByFaceTypeAsync(string faceType, CancellationToken cancellationToken)
+        public async Task<PagedResult<Glasses>> FindByFaceTypeAsync(string faceType, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
+            IQueryable<Glasses> query = _context.Glasses.AsQueryable();
+
             try
             {
                 switch (faceType)
                 {
                     case "Oval":
-                        return await _context.Glasses
-                            .Where(g => g.Oval == true)
-                            .ToListAsync(cancellationToken);
+                        query = query.Where(g => g.Oval == true);
+                        break;
                     case "Oblong":
-						return await _context.Glasses
-							.Where(g => g.Oblong == true)
-							.ToListAsync(cancellationToken);
-                    case "Heart":
-						return await _context.Glasses
-							.Where(g => g.Heart == true)
-							.ToListAsync(cancellationToken);
-                    case "Round":
-						return await _context.Glasses
-							.Where(g => g.Round == true)
-							.ToListAsync(cancellationToken);
-                    case "Square":
-						return await _context.Glasses
-							.Where(g => g.Square == true)
-							.ToListAsync(cancellationToken);
-                    default:
-                        return new List<Glasses> { };
+						query = query.Where(g => g.Oblong == true);
+                        break;
+					case "Heart":
+						query = query.Where(g => g.Heart == true);
+                        break;
+					case "Round":
+						query = query.Where(g => g.Round == true);
+                        break;
+					case "Square":
+						query = query.Where(g => g.Square == true);
+                        break;
+					default:
+						query = query.Where(g => false);
+                        break;
 				}
+
+                int totalCount = await query.CountAsync();
+
+                List<Glasses> items = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync(cancellationToken);
+
+                return new PagedResult<Glasses>
+                {
+                    Items = items,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalCount = totalCount
+                };
 
             }
             catch (Exception ex)
