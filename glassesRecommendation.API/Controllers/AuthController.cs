@@ -46,7 +46,7 @@ namespace glassesRecommendation.API.Controllers
 				{
 					HttpOnly = true,
                     Path = "/",
-					Secure = false,
+					Secure = true,
 					SameSite = SameSiteMode.None,
 					Expires = DateTime.UtcNow.AddDays(1)
 				};
