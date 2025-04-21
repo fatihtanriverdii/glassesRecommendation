@@ -1,0 +1,27 @@
+steps:
+  # 1. Docker image'ini build et
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/glasses-recommendation-api', '.']
+
+  # 2. Docker image'ini Container Registry'ye pushla
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/glasses-recommendation-api']
+
+  # 3. (Opsiyonel) Eðer Cloud Run'a deploy ediyorsan:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'glasses-recommendation-api'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/glasses-recommendation-api'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+# Log problemi çözümü:
+options:
+  logging: CLOUD_LOGGING_ONLY
