@@ -23,9 +23,9 @@ namespace glassesRecommendation.API.Controllers
             {
                 var cookieOptions = new CookieOptions
                 {
-                    HttpOnly = true,
+                    HttpOnly = false,
 					Path = "/",
-					Secure = false,
+					Secure = true,
 					SameSite = SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddDays(1)
                 };
@@ -44,7 +44,7 @@ namespace glassesRecommendation.API.Controllers
             {
 				var cookieOptions = new CookieOptions
 				{
-					HttpOnly = true,
+					HttpOnly = false,
                     Path = "/",
 					Secure = true,
 					SameSite = SameSiteMode.None,
