@@ -26,10 +26,10 @@ namespace glassesRecommendation.API.Controllers
                     HttpOnly = false,
 					Path = "/",
 					Secure = true,
-					SameSite = SameSiteMode.None,
+					SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddDays(1)
                 };
-                Response.Cookies.Append("token", authResponse.Token);
+                Response.Cookies.Append("token", authResponse.Token, cookieOptions);
                 return Ok(authResponse);
             }
 
@@ -47,10 +47,10 @@ namespace glassesRecommendation.API.Controllers
 					HttpOnly = false,
                     Path = "/",
 					Secure = true,
-					SameSite = SameSiteMode.None,
+					SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddDays(1)
 				};
-				Response.Cookies.Append("token", authResponse.Token);
+				Response.Cookies.Append("token", authResponse.Token, cookieOptions);
 				return Ok(authResponse);
             }
             return Unauthorized(authResponse);
