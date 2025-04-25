@@ -23,12 +23,12 @@ builder.Services.AddCors(options =>
 	options.AddPolicy("AllowFrontend",
 		builder =>
 		{
-			builder
+            builder
             .WithOrigins("http://192.168.1.111:3000", "http://localhost:3000", "https://glassify-frontend-791546846158.europe-west1.run.app")
-			.AllowAnyMethod()
-			.AllowAnyHeader()
-			.AllowCredentials()
-            .SetIsOriginAllowed(origin => true);
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+            //.SetIsOriginAllowed(origin => true);
 		});
 });
 
