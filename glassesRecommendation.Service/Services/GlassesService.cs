@@ -61,8 +61,8 @@ namespace glassesRecommendation.Service.Services
                 Glasses glasses = _mapper.Map<Glasses>(addGlassesRequestDto);
                 glasses.Users.Add(user);
                 var savedGlasses = await _glassesRepository.AddAsync(glasses, cancellationToken);
-                user.Glasses.Add(savedGlasses);
-                await _userRepository.UpdateAsync(user, cancellationToken);
+                //user.Glasses.Add(savedGlasses);
+                //await _userRepository.UpdateAsync(user, cancellationToken);
 
                 return new GlassesResponseDto
                 {
