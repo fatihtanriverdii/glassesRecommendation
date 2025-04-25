@@ -27,7 +27,6 @@ namespace glassesRecommendation.API.Controllers
 					Path = "/",
 					Secure = true,
 					SameSite = SameSiteMode.None,
-                    Domain = "glassify.run.app",
                     Expires = DateTime.UtcNow.AddDays(1)
                 };
                 Response.Cookies.Append("token", authResponse.Token);
@@ -49,7 +48,6 @@ namespace glassesRecommendation.API.Controllers
                     Path = "/",
 					Secure = true,
 					SameSite = SameSiteMode.None,
-                    Domain = "glassify.run.app",
                     Expires = DateTime.UtcNow.AddDays(1)
 				};
 				Response.Cookies.Append("token", authResponse.Token);
