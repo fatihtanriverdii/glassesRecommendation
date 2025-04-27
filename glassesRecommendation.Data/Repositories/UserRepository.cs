@@ -86,7 +86,7 @@ namespace glassesRecommendation.Data.Repositories
                 await _context.SaveChangesAsync(cancellationToken);
                 return "user successfully updated";
             } catch (Exception ex) {
-                throw new Exception($"an error while updating user: {ex.Message}");
+                throw new Exception($"an error while updating user: {ex}");
             }
         }
     }

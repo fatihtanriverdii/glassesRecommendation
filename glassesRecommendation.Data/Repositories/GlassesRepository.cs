@@ -123,9 +123,10 @@ namespace glassesRecommendation.Data.Repositories
                         break;
 				}
 
-                int totalCount = await query.CountAsync();
+                int totalCount = await query.CountAsync(cancellationToken);
 
                 List<Glasses> items = await query
+                    .OrderBy(x => Guid.NewGuid())
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync(cancellationToken);
