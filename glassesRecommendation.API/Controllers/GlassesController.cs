@@ -25,5 +25,15 @@ namespace glassesRecommendation.API.Controllers
 			var pagedResult = await _glassesService.GetGlassesSuitableFaceTypeAsync(faceTypeRequestDto.FaceType, pageNumber, pageSize, cancellationToken);
 			return Ok(pagedResult);
 		}
+
+		[HttpGet("glasses")]
+		public async Task<IActionResult> GetAllGlassesAsync(
+			CancellationToken cancellationToken,
+			[FromQuery] int pageNumber = 1,
+			[FromQuery] int pageSize = 5)
+		{
+			var pagegResult = await _glassesService.GetAllGlassesAsync(pageNumber, pageSize, cancellationToken);
+			return Ok(pagegResult);
+		}
 	}
 }

@@ -48,9 +48,9 @@ namespace glassesRecommendation.Service.Services
             };
 		}
 
-        public Task<List<Glasses>> GetAllGlasses(CancellationToken cancellationToken)
+        public async Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-			throw new NotImplementedException();
+			return await _glassesRepository.FindAllAsync(pageNumber, pageSize, cancellationToken);
 		}
 
         public async Task<GlassesResponseDto> SaveAsync(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken)

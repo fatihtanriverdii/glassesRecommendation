@@ -30,11 +30,27 @@ namespace glassesRecommendation.Data.Repositories
             }
         }
 
-        public async Task<List<Glasses>?> FindAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResult<Glasses>> FindAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
+            IQueryable<Glasses> query = _context.Glasses.AsQueryable();
+
             try
             {
-                return await _context.Glasses.ToListAsync(cancellationToken);
+                int totalCount = await query.CountAsync(cancellationToken);
+
+                List<Glasses> items = await query
+                    .OrderBy(x => Guid.NewGuid())
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync(cancellationToken);
+
+                return new PagedResult<Glasses>
+                {
+                    Items = items,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalCount = totalCount
+                };
             }
             catch (Exception ex)
             {

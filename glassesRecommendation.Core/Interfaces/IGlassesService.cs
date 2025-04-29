@@ -8,7 +8,7 @@ namespace glassesRecommendation.Core.Interfaces
     {
         Task<GlassesResponseDto> SaveAsync(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken);
         Task<GlassesResponseDto> DeleteAsync(RemoveGlassesRequestDto removeGlassesRequestDto, CancellationToken cancellationToken);
-        Task<List<Glasses>> GetAllGlasses(CancellationToken cancellationToken);
+        Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
         Task<PagedResult<Glasses>> GetGlassesSuitableFaceTypeAsync(string faceType, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
 	}

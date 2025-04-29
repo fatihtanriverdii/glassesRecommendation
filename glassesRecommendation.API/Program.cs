@@ -56,6 +56,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGlassesRepository, GlassesRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGlassesService, GlassesService>();
+builder.Services.AddHttpClient<IScraperService, ScraperService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthorization();
