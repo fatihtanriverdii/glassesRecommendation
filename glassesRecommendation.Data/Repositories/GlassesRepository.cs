@@ -39,7 +39,6 @@ namespace glassesRecommendation.Data.Repositories
                 int totalCount = await query.CountAsync(cancellationToken);
 
                 List<Glasses> items = await query
-                    .OrderBy(x => Guid.NewGuid())
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync(cancellationToken);
