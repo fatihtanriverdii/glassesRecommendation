@@ -8,6 +8,6 @@ namespace glassesRecommendation.Core.Interfaces
         Task<AuthDto> SaveAsync(User user, CancellationToken cancellationToken);
         Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
         Task<bool> CheckIsEmailExists(string email, CancellationToken cancellationToken);
-        Task<GlassesResponseDto> GetAllGlassesAsync(string email, CancellationToken cancellationToken);
+		Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, string email, CancellationToken cancellationToken);
     }
 }

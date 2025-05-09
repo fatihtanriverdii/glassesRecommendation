@@ -21,9 +21,9 @@ namespace glassesRecommendation.Service.Services
             return true;
         }
 
-		public async Task<GlassesResponseDto> GetAllGlassesAsync(string email, CancellationToken cancellationToken)
+		public async Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, string email, CancellationToken cancellationToken)
 		{
-			var glassesResponse = await _userRepository.FindAllGlassesAsync(email, cancellationToken);
+			var glassesResponse = await _userRepository.FindAllGlassesAsync(pageNumber, pageSize, email, cancellationToken);
             return glassesResponse;
 		}
 

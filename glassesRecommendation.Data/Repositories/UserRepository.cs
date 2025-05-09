@@ -35,28 +35,44 @@ namespace glassesRecommendation.Data.Repositories
             }
         }
 
-		public async Task<GlassesResponseDto> FindAllGlassesAsync(string email, CancellationToken cancellationToken)
+		public async Task<PagedResult<Glasses>> FindAllGlassesAsync(int pageNumber, int pageSize, string email, CancellationToken cancellationToken)
 		{
             try
             {
                 var user = await _context.Users
-                    .Include(u => u.Glasses)
                     .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
-                if (user == null)
+                if (user != null)
                 {
-                    return new GlassesResponseDto
+                    var query = _context.Glasses
+                        .Where(g => g.Users.Any(u => u.Email == email));
+
+                    var totalCount = await query.CountAsync();
+
+                    var items = await query
+                        .OrderBy(g => g.Id)
+                        .Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToListAsync(cancellationToken);
+
+                    return new PagedResult<Glasses>
                     {
-                        IsSuccess = false,
-                        Message = "user not found!"
+                        Items = items,
+                        TotalCount = totalCount,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize
                     };
                 }
-
-                return new GlassesResponseDto
+                else
                 {
-                    IsSuccess = true,
-                    glasses = user.Glasses
-                };
+					return new PagedResult<Glasses>
+					{
+						Items = new List<Glasses>(),
+						PageNumber = pageNumber,
+						PageSize = pageSize,
+						TotalCount = 0
+					};
+				}
             }
             catch (Exception ex)
             {

@@ -36,12 +36,14 @@ namespace glassesRecommendation.API.Controllers
         }
 
         [HttpGet("glasses")]
-        public async Task<IActionResult> getGlasses([FromQuery] string email, CancellationToken cancellationToken)
+        public async Task<IActionResult> getGlasses(
+            [FromQuery] string email,
+            CancellationToken cancellationToken,
+		    [FromQuery] int pageNumber = 1,
+			[FromQuery] int pageSize = 5)
         {
-            var response = await _userService.GetAllGlassesAsync(email, cancellationToken);
-            if (response.IsSuccess)
-                return Ok(response);
-            return BadRequest(response);
+            var response = await _userService.GetAllGlassesAsync(pageNumber, pageSize, email, cancellationToken);
+            return Ok(response);
         }
     }
 }
