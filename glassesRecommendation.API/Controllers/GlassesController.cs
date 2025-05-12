@@ -35,5 +35,48 @@ namespace glassesRecommendation.API.Controllers
 			var pagegResult = await _glassesService.GetAllGlassesAsync(pageNumber, pageSize, cancellationToken);
 			return Ok(pagegResult);
 		}
+
+		[HttpPatch("{id}/favorite")]
+		public async Task<IActionResult> FavouriteGlass(long id, CancellationToken cancellationToken)
+		{
+			var success = await _glassesService.FavouriteGlassesAsync(id, cancellationToken);
+			if (!success)
+				return NotFound();
+			return NoContent();
+		}
+
+		[HttpPatch("{id}/remove/favorite")]
+		public async Task<IActionResult> RemoveFavouriteGlass(long id, CancellationToken cancellationToken)
+		{
+			var success = await _glassesService.RemoveFavouriteGlassesAsync(id, cancellationToken);
+			if (!success)
+				return NotFound();
+			return NoContent();
+		}
+
+		[HttpPatch("{id}/increase/view")]
+		public async Task<IActionResult> IncreaseView(long id, CancellationToken cancellationToken)
+		{
+			var success = await _glassesService.IncreaseViewAsync(id, cancellationToken);
+			if (!success)
+				return NotFound();
+			return NoContent();
+		}
+
+		[HttpPatch("{id}/active")]
+		public async Task<IActionResult> SetActive(long id, [FromBody] UpdateActiveDto updateActiveDto, [FromQuery] string email, CancellationToken cancellationToken)
+		{
+			var success = await _glassesService.SetActiveAsync(id, updateActiveDto.IActive, email, cancellationToken);
+			if (!success)
+				return NotFound();
+			return NoContent();
+		}
+
+		[HttpPatch("active")]
+		public async Task<IActionResult> SetAllActive([FromBody] UpdateActiveDto updateActiveDto, [FromQuery] string email, CancellationToken cancellationToken)
+		{
+			await _glassesService.SetAllActiveAsync(updateActiveDto.IActive, email, cancellationToken);
+			return NoContent();
+		}
 	}
 }

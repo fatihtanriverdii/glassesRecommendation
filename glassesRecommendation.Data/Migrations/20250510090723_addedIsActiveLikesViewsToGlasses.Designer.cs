@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using glassesRecommendation.Data.Context;
 
@@ -10,9 +11,11 @@ using glassesRecommendation.Data.Context;
 namespace glassesRecommendation.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250510090723_addedIsActiveLikesViewsToGlasses")]
+    partial class addedIsActiveLikesViewsToGlasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,8 +64,8 @@ namespace glassesRecommendation.Data.Migrations
                     b.Property<bool>("IsRecycling")
                         .HasColumnType("bit");
 
-                    b.Property<long>("Likes")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
 
                     b.Property<string>("Link")
                         .IsRequired()
@@ -80,8 +83,8 @@ namespace glassesRecommendation.Data.Migrations
                     b.Property<bool>("Square")
                         .HasColumnType("bit");
 
-                    b.Property<long>("Views")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

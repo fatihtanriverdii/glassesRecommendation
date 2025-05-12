@@ -38,5 +38,11 @@ namespace glassesRecommendation.Service.Services
             var authResponse = await _userRepository.AddAsync(user, cancellationToken);
             return authResponse;
         }
+
+        public async Task<SellerStatisticsDto> GetSellerStatsAsync (string email)
+        {
+            var statsResponse = await _userRepository.GetSellerStatisticsAsync(email);
+            return statsResponse;
+        }
     }
 }

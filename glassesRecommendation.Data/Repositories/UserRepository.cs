@@ -105,5 +105,31 @@ namespace glassesRecommendation.Data.Repositories
                 throw new Exception($"an error while updating user: {ex}");
             }
         }
+
+        public async Task<SellerStatisticsDto> GetSellerStatisticsAsync(string email)
+        {
+            try
+            {
+                var glassesQuery = _context.Glasses
+                                        .Where(g => g.Users.Any(u => u.Email == email));
+
+                var totalGlasses = await glassesQuery.CountAsync();
+                var activeGlasses = await glassesQuery.CountAsync(g => g.IsActive);
+                var totalViews = await glassesQuery.SumAsync(g => g.Views);
+                var totalLikes = await glassesQuery.SumAsync(g => g.Likes);
+
+                return new SellerStatisticsDto
+                {
+                    TotalGlasses = totalGlasses,
+                    ActiveGlasses = activeGlasses,
+                    TotalViews = totalViews,
+                    TotalLikes = totalLikes
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while getting statistics: {ex.Message}");
+            }
+        }
     }
 }

@@ -11,6 +11,9 @@ namespace glassesRecommendation.Core.Models
         public string GlassesType { get; set; }
         public string Link { get; set; }
         public bool IsRecycling { get; set; }
+        public bool IsActive { get; set; } = true;
+        public long Likes { get; set; }
+        public long Views { get; set; }
         public bool Oval { get; set; }
         public bool Oblong { get; set; }
         public bool Heart { get; set; }

@@ -9,5 +9,7 @@ namespace glassesRecommendation.Core.Interfaces
         Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
         Task<bool> CheckIsEmailExists(string email, CancellationToken cancellationToken);
 		Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, string email, CancellationToken cancellationToken);
-    }
+        Task<SellerStatisticsDto> GetSellerStatsAsync(string email);
+
+	}
 }

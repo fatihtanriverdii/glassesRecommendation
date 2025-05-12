@@ -81,5 +81,30 @@ namespace glassesRecommendation.Service.Services
         {
             return await _glassesRepository.FindByFaceTypeAsync(faceType, pageNumber, pageSize, cancellationToken);
         }
-    }
+
+        public async Task<bool> FavouriteGlassesAsync(long id, CancellationToken cancellationToken)
+        {
+            return await _glassesRepository.FavouriteGlassesAsync(id, cancellationToken);
+        }
+
+		public async Task<bool> RemoveFavouriteGlassesAsync(long id, CancellationToken cancellationToken)
+		{
+			return await _glassesRepository.RemoveFavouriteGlassesAsync(id, cancellationToken);
+		}
+
+        public async Task<bool> IncreaseViewAsync(long id, CancellationToken cancellationToken)
+        {
+            return await _glassesRepository.IncreaseViewAsync(id, cancellationToken);
+        }
+
+        public async Task<bool> SetActiveAsync(long id, bool isActive, string email, CancellationToken cancellationToken)
+        {
+            return await _glassesRepository.SetActiveAsync(id, isActive, email, cancellationToken);
+        }
+
+        public async Task<int> SetAllActiveAsync(bool isActive, string email, CancellationToken cancellationToken)
+        {
+            return await _glassesRepository.SetAllActiveAsync(isActive, email, cancellationToken);
+        }
+	}
 }

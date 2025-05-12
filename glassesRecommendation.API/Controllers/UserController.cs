@@ -1,12 +1,14 @@
 ﻿using glassesRecommendation.Core.DTOs.Requests;
 using glassesRecommendation.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace glassesRecommendation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+	[Authorize]
+	public class UserController : ControllerBase
     {
         private readonly IGlassesService _glassesService;
         private readonly IUserService _userService;
@@ -43,6 +45,15 @@ namespace glassesRecommendation.API.Controllers
 			[FromQuery] int pageSize = 5)
         {
             var response = await _userService.GetAllGlassesAsync(pageNumber, pageSize, email, cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpGet("statistics")]
+        public async Task<IActionResult> GetSellerStatistics(
+            [FromQuery] string email,
+            CancellationToken cancellationToken)
+        {
+            var response = await _userService.GetSellerStatsAsync(email);
             return Ok(response);
         }
     }

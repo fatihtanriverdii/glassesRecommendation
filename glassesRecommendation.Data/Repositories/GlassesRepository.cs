@@ -14,7 +14,7 @@ namespace glassesRecommendation.Data.Repositories
         public GlassesRepository(AppDbContext context)
         {
             _context = context;
-        }   
+        }
 
         public async Task<Glasses> AddAsync(Glasses glasses, CancellationToken cancellationToken)
         {
@@ -39,6 +39,7 @@ namespace glassesRecommendation.Data.Repositories
                 int totalCount = await query.CountAsync(cancellationToken);
 
                 List<Glasses> items = await query
+                    .Where(g => g.IsActive == true)
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync(cancellationToken);
@@ -97,11 +98,14 @@ namespace glassesRecommendation.Data.Repositories
             {
                 _context.Glasses.Update(glasses);
                 await _context.SaveChangesAsync(cancellationToken);
-                return new GlassesResponseDto {
+                return new GlassesResponseDto
+                {
                     IsSuccess = true,
                     Message = "glasses successfully updated"
                 };
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return new GlassesResponseDto
                 {
                     IsSuccess = false,
@@ -122,25 +126,26 @@ namespace glassesRecommendation.Data.Repositories
                         query = query.Where(g => g.Oval == true);
                         break;
                     case "Oblong":
-						query = query.Where(g => g.Oblong == true);
+                        query = query.Where(g => g.Oblong == true);
                         break;
-					case "Heart":
-						query = query.Where(g => g.Heart == true);
+                    case "Heart":
+                        query = query.Where(g => g.Heart == true);
                         break;
-					case "Round":
-						query = query.Where(g => g.Round == true);
+                    case "Round":
+                        query = query.Where(g => g.Round == true);
                         break;
-					case "Square":
-						query = query.Where(g => g.Square == true);
+                    case "Square":
+                        query = query.Where(g => g.Square == true);
                         break;
-					default:
-						query = query.Where(g => false);
+                    default:
+                        query = query.Where(g => false);
                         break;
-				}
+                }
 
                 int totalCount = await query.CountAsync(cancellationToken);
 
                 List<Glasses> items = await query
+                    .Where(g => g.IsActive == true)
                     .OrderBy(x => Guid.NewGuid())
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
@@ -158,6 +163,110 @@ namespace glassesRecommendation.Data.Repositories
             catch (Exception ex)
             {
                 throw new Exception($"an error while getting glasses: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> FavouriteGlassesAsync(long id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var glasses = await _context.Glasses
+                                    .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+                if (glasses == null)
+                    return false;
+
+                glasses.Likes += 1;
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while fav a glasses: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> RemoveFavouriteGlassesAsync(long id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var glasses = await _context.Glasses
+                                    .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+
+                if (glasses == null)
+                    return false;
+
+                glasses.Likes -= 1;
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while remove fav glasses: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> IncreaseViewAsync(long id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var glasses = await _context.Glasses
+                                    .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+
+                if (glasses == null)
+                    return false;
+
+                glasses.Views += 1;
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while increasing view: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> SetActiveAsync(long id, bool isActive, string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var glasses = await _context.Glasses
+                                    .Where(g => g.Users.Any(u => u.Email == email) 
+                                        && g.Id == id)
+                                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (glasses == null)
+                    return false;
+
+                glasses.IsActive = isActive;
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while setting activity: {ex.Message}");
+            }
+        }
+
+        public async Task<int> SetAllActiveAsync(bool isActive, string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var glasses = await _context.Glasses
+                                    .Where(g => g.Users.Any(u => u.Email == email))
+                                    .ToListAsync (cancellationToken);
+
+                foreach(var g in glasses)
+                    g.IsActive = isActive;
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while setting all activity: {ex.Message}");
             }
         }
     }
