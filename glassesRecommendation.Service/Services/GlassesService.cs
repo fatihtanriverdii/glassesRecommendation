@@ -106,5 +106,15 @@ namespace glassesRecommendation.Service.Services
         {
             return await _glassesRepository.SetAllActiveAsync(isActive, email, cancellationToken);
         }
+        public async Task<SellerStatisticsGlassesDto> GetMostViewedAsync(string email, CancellationToken cancellationToken)
+        {
+            var entity = await _glassesRepository.FindGlassesMostViewedAsync(email, cancellationToken);
+            return _mapper.Map<SellerStatisticsGlassesDto>(entity);
+        }
+		public async Task<SellerStatisticsGlassesDto> GetMostLikedAsync(string email, CancellationToken cancellationToken)
+		{
+			var entity = await _glassesRepository.FindGlassesMostLikedAsync(email, cancellationToken);
+			return _mapper.Map<SellerStatisticsGlassesDto>(entity);
+		}
 	}
 }

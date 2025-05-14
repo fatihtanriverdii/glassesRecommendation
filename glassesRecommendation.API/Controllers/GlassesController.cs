@@ -1,6 +1,5 @@
 ﻿using glassesRecommendation.Core.DTOs.Requests;
 using glassesRecommendation.Core.Interfaces;
-using glassesRecommendation.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace glassesRecommendation.API.Controllers

@@ -269,5 +269,35 @@ namespace glassesRecommendation.Data.Repositories
                 throw new Exception($"an error while setting all activity: {ex.Message}");
             }
         }
+
+        public async Task<Glasses> FindGlassesMostViewedAsync(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _context.Glasses
+                            .Where(g => g.Users.Any(g => g.Email == email))
+                            .OrderByDescending(g => g.Views)
+                            .FirstOrDefaultAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while finding the most viewed glasses: {ex.Message}");
+            }
+        }
+
+        public async Task<Glasses> FindGlassesMostLikedAsync(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _context.Glasses
+							.Where(g => g.Users.Any(g => g.Email == email))
+							.OrderByDescending(g => g.Likes)
+                            .FirstOrDefaultAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"an error while finding the most liked glasses: {ex.Message}");
+            }
+        }
     }
 }

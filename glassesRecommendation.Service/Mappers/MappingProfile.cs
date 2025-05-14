@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using glassesRecommendation.Core.DTOs.Requests;
+using glassesRecommendation.Core.DTOs.Responses;
 using glassesRecommendation.Core.Models;
 
 namespace glassesRecommendation.Service.Mappers
@@ -12,6 +13,7 @@ namespace glassesRecommendation.Service.Mappers
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
 
             CreateMap<AddGlassesRequestDto, Glasses>();
+            CreateMap<Glasses, SellerStatisticsGlassesDto>();
         }
     }
 }

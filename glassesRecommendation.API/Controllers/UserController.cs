@@ -56,5 +56,27 @@ namespace glassesRecommendation.API.Controllers
             var response = await _userService.GetSellerStatsAsync(email);
             return Ok(response);
         }
-    }
+
+        [HttpGet("most-viewed")]
+        public async Task<IActionResult> GetMostViewed(
+            [FromQuery] string email,
+            CancellationToken cancellationToken)
+        {
+            var dto = await _glassesService.GetMostViewedAsync(email, cancellationToken);
+            if(dto == null)
+                return NoContent();
+            return Ok(dto);
+        }
+
+		[HttpGet("most-liked")]
+		public async Task<IActionResult> GetMostLiked(
+	        [FromQuery] string email,
+	        CancellationToken cancellationToken)
+		{
+			var dto = await _glassesService.GetMostLikedAsync(email, cancellationToken);
+			if (dto == null)
+				return NoContent();
+			return Ok(dto);
+		}
+	}
 }

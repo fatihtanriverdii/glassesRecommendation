@@ -15,5 +15,7 @@ namespace glassesRecommendation.Core.Interfaces
         Task<bool> IncreaseViewAsync(long id, CancellationToken cancellationToken);
         Task<bool> SetActiveAsync(long id, bool isActive, string email, CancellationToken cancellationToken);
         Task<int> SetAllActiveAsync(bool isActive, string email, CancellationToken cancellationToken);
+        Task<SellerStatisticsGlassesDto> GetMostViewedAsync(string email, CancellationToken cancellationToken);
+        Task<SellerStatisticsGlassesDto> GetMostLikedAsync(string email, CancellationToken cancellationToken);
 	}
 }
