@@ -1,7 +1,9 @@
-﻿namespace glassesRecommendation.Core.DTOs.Requests
+using glassesRecommendation.Core.Enums;
+
+namespace glassesRecommendation.Core.DTOs.Requests
 {
-	public class FaceTypeRequestDto
-	{
-		public string FaceType { get; set; }
-	}
+    public class FaceTypeRequestDto
+    {
+        public FaceType FaceType { get; set; }
+    }
 }
