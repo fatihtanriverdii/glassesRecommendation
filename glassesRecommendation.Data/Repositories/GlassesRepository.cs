@@ -21,8 +21,12 @@ namespace glassesRecommendation.Data.Repositories
             try
             {
                 _context.Glasses.Add(glasses);
-                long id = await _context.SaveChangesAsync(cancellationToken);
-                return await _context.Glasses.FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                // the entity's Id will be set after SaveChangesAsync, so simply
+                // return the same instance instead of querying by the number of
+                // affected rows
+                return glasses;
             }
             catch (Exception ex)
             {
