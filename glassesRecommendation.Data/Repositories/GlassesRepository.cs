@@ -1,6 +1,7 @@
 ﻿using glassesRecommendation.Core.DTOs.Responses;
 using glassesRecommendation.Core.Interfaces;
 using glassesRecommendation.Core.Models;
+using glassesRecommendation.Core.Enums;
 using glassesRecommendation.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -118,7 +119,7 @@ namespace glassesRecommendation.Data.Repositories
             }
         }
 
-        public async Task<PagedResult<Glasses>> FindByFaceTypeAsync(string faceType, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<PagedResult<Glasses>> FindByFaceTypeAsync(FaceType faceType, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             IQueryable<Glasses> query = _context.Glasses.AsQueryable();
 
@@ -126,20 +127,20 @@ namespace glassesRecommendation.Data.Repositories
             {
                 switch (faceType)
                 {
-                    case "Oval":
-                        query = query.Where(g => g.Oval == true);
+                    case FaceType.Oval:
+                        query = query.Where(g => g.Oval);
                         break;
-                    case "Oblong":
-                        query = query.Where(g => g.Oblong == true);
+                    case FaceType.Oblong:
+                        query = query.Where(g => g.Oblong);
                         break;
-                    case "Heart":
-                        query = query.Where(g => g.Heart == true);
+                    case FaceType.Heart:
+                        query = query.Where(g => g.Heart);
                         break;
-                    case "Round":
-                        query = query.Where(g => g.Round == true);
+                    case FaceType.Round:
+                        query = query.Where(g => g.Round);
                         break;
-                    case "Square":
-                        query = query.Where(g => g.Square == true);
+                    case FaceType.Square:
+                        query = query.Where(g => g.Square);
                         break;
                     default:
                         query = query.Where(g => false);
