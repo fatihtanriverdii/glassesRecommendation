@@ -1,8 +1,12 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace glassesRecommendation.Core.DTOs.Requests
 {
-	public class GetGlassesRequestDto
-	{
-		public string Email { get; set; }
-	}
+    public class GetGlassesRequestDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
 }

@@ -1,7 +1,11 @@
-﻿namespace glassesRecommendation.Core.DTOs.Requests
+using glassesRecommendation.Core.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace glassesRecommendation.Core.DTOs.Requests
 {
-	public class FaceTypeRequestDto
-	{
-		public string FaceType { get; set; }
-	}
+    public class FaceTypeRequestDto
+    {
+        [Required]
+        public FaceType FaceType { get; set; }
+    }
 }
