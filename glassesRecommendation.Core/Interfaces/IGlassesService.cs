@@ -1,6 +1,7 @@
 ﻿using glassesRecommendation.Core.DTOs.Requests;
 using glassesRecommendation.Core.DTOs.Responses;
 using glassesRecommendation.Core.Models;
+using glassesRecommendation.Core.Enums;
 
 namespace glassesRecommendation.Core.Interfaces
 {
@@ -9,7 +10,7 @@ namespace glassesRecommendation.Core.Interfaces
         Task<GlassesResponseDto> SaveAsync(AddGlassesRequestDto addGlassesRequestDto, CancellationToken cancellationToken);
         Task<GlassesResponseDto> DeleteAsync(RemoveGlassesRequestDto removeGlassesRequestDto, CancellationToken cancellationToken);
         Task<PagedResult<Glasses>> GetAllGlassesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
-        Task<PagedResult<Glasses>> GetGlassesSuitableFaceTypeAsync(string faceType, int pageNumber, int pageSize, CancellationToken cancellationToken);
+        Task<PagedResult<Glasses>> GetGlassesSuitableFaceTypeAsync(FaceType faceType, int pageNumber, int pageSize, CancellationToken cancellationToken);
         Task<bool> FavouriteGlassesAsync(long id, CancellationToken cancellationToken);
         Task<bool> RemoveFavouriteGlassesAsync(long id, CancellationToken cancellationToken);
         Task<bool> IncreaseViewAsync(long id, CancellationToken cancellationToken);
