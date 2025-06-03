@@ -1,7 +1,10 @@
-﻿namespace glassesRecommendation.Core.DTOs.Requests
+using System.ComponentModel.DataAnnotations;
+
+namespace glassesRecommendation.Core.DTOs.Requests
 {
-	public class UpdateActiveDto
-	{
-		public bool IActive { get; set; }
-	}
+    public class UpdateActiveDto
+    {
+        [Required]
+        public bool IActive { get; set; }
+    }
 }
